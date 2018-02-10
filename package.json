@@ -1,0 +1,15 @@
+{
+  "name": "hytx-sdk-js",
+  "version": "0.1.0",
+  "description": "HealthLytix SDK for NodeJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jorge Guzman, HealthLytix",
+  "license": "MIT",
+  "dependencies": {
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2"
+  }
+}
