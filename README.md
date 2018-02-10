@@ -20,9 +20,11 @@ npm install hytx-sdk-js
 
 ## Usage and Getting Started
 
-You can find a getting started guide at:
+You can find the RESTful API documenation here:
 
 https://developer.healthlytix.com
+
+More documenation for SDK coming soon...
 
 ### In Node.js
 
