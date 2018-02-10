@@ -1,7 +1,9 @@
 # HealthLytix SDK for NodeJS
 
 [![NPM](https://nodei.co/npm/hytx-sdk-js.svg?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/hytx-sdk-js/)
-[![Version](https://badge.fury.io/js/hytx-sdk-js.svg)](http://badge.fury.io/js/hytx-sdk-js) 
+
+[![Version](https://badge.fury.io/js/hytx-sdk-js.svg)](http://badge.fury.io/js/hytx-sdk-js)
+
 The official HealthLytix SDK for Node.js
 
 ## Installing
