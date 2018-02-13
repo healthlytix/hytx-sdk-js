@@ -6,7 +6,9 @@ const endpoints = {
     "ping": "/id/ping",
     "getUploadUrl": "/data/getUploadUrl",
     "runAlzheimersPHS": "/app-alzgenic/run-app",
-    "getAlzheimersPHS": "/app-alzgenic/results?requestId="
+    "getAlzheimersPHS": "/app-alzgenic/results?requestId=",
+    "runProstatePHS": "/app-pcgenic/run-app",
+    "getProstatePHS": "/app-pcgenic/results?requestId="
 }
 
 class HealthLytix {
@@ -29,7 +31,7 @@ class HealthLytix {
     }
 
     /**
-     * Process PHS Algorithm on the Healthlytix Platform
+     * Process Alzheimer's PHS Algorithm on the Healthlytix Platform
      * 
      * @param {String} requestId The requestId returned from uploading the 23andme, Ancestry or VCF file with genetic info to 
      * the healthlytix platform. You can get this value from running uploadFile()
@@ -88,6 +90,84 @@ class HealthLytix {
         let options = {
             method: 'GET',
             uri: `${this.publicApiURL}${endpoints["getAlzheimersPHS"]}${requestId}`,
+            headers: {
+                Authorization: this.token
+            }
+        }
+
+        request(options, (err, response, body) => {
+            if (err || !body) {
+                this.logger.error(err);
+                callback(err);
+            } else {
+                // successfull! callback!
+                body = JSON.parse(body)
+                this.logger.info(body)
+                callback(null, body)
+            }
+        });
+    }
+
+    /**
+     * Process Prostate PHS Algorithm on the Healthlytix Platform
+     * 
+     * @param {String} requestId The requestId returned from uploading the 23andme, Ancestry or VCF file with genetic info to 
+     * the healthlytix platform. You can get this value from running uploadFile()
+     * @param {Number} age Age of subject
+     * @param {Function} callback Callback function that returns (err, report). Refer to API docs for report object structure.
+     * 
+     * @returns {Promise} Returns a promise if no callback specified
+     */
+    runProstatePHS(requestId, age, callback) {
+
+        if (callback === undefined) {
+            return new Promise((resolve, reject) => {
+                this.runProstatePHS(requestId, age, (err, report) => err ? reject(err) : resolve(report))
+            });
+        }
+
+        let options = {
+            method: 'POST',
+            uri: `${this.publicApiURL}${endpoints["runProstatePHS"]}`,
+            headers: {
+                Authorization: this.token, 
+                'content-type': 'application/json'
+            },
+            body: {
+                requestId: requestId,
+                age: age
+            },
+            json: true
+        }
+
+        rp(options)
+        .then((response) => {
+            this.logger.info("PcGenic Processing Completed")
+            callback(null, response);
+        })
+        .catch((err) => {
+            this.logger.error(err);
+            callback(err);
+        });
+    }
+
+    /**
+     * Retrieve previously processed results from Prostate's PHS app
+     * @param {string} requestId Original requestId used when processing the original genetic data to retrieve
+     * @param {Function} callback (err, report), where report is the previously calculated results
+     * @returns {Promise} Returns a promise if no callback provided
+     */
+    getProstatePHS(requestId, callback)
+    {
+        if (callback === undefined) {
+            return new Promise((resolve, reject) => {
+                this.getProstatePHS(requestId, (err, report) => err ? reject(err) : resolve(report))
+            });
+        }
+
+        let options = {
+            method: 'GET',
+            uri: `${this.publicApiURL}${endpoints["getProstatePHS"]}${requestId}`,
             headers: {
                 Authorization: this.token
             }
