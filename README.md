@@ -41,7 +41,7 @@ const HealthLytix = require('hytx-sdk-js');
 
 // all methods return either a promise or callback if no promise provided
 // it works with async/await
-const HealthLytix = require('./index');
+const HealthLytix = require('hytx-sdk-js');
 const hytx = new HealthLytix('ApiID', 'ApiSecret');
 
 (async function() {
