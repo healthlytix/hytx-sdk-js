@@ -1,6 +1,6 @@
 {
   "name": "hytx-sdk-js",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "HealthLytix SDK for NodeJS",
   "main": "index.js",
   "scripts": {
