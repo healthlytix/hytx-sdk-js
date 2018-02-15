@@ -1,5 +1,4 @@
 const HealthLytix = require('hytx-sdk-js');
-const fs = require('fs');
 const hytx = new HealthLytix('ApiID', 'ApiSecret');
 
 // each method supports promises or callbacks

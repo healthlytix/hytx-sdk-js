@@ -1,6 +1,6 @@
 const rp = require('request-promise');
 const request = require('request')
-const fs = require('fs');
+const fs = require('fs-extra');
 
 const endpoints = {
     "ping": "/id/ping",
@@ -301,6 +301,54 @@ class HealthLytix {
                 callback(null, body.message)
             }
         });
+    }
+
+    convertVCF(vcfFile, outputFile, callback) {
+        
+        if (callback === undefined) {
+            return new Promise((resolve, reject) => {
+                this.convertVCF(vcfFile, outputFile, (err) => err ? reject(err) : resolve())
+            });
+        }
+
+        try {
+    
+            fs.removeSync(outputFile);
+            
+            var vcf = require('bionode-vcf');
+            console.log("Converting VCF File...");
+            fs.appendFileSync(outputFile, `#fileformat=HYTX-VCFv1\n`);
+
+            vcf.read(vcfFile);
+    
+            vcf.on('data', (feature) => {
+                
+                let gt = feature.sampleinfo[0].GT.split('/');
+                let ref = feature.ref;
+                let alt = feature.alt;
+    
+                if(gt[0] !== '0')
+                    ref = feature.alt;
+                if(gt[1] === '0')
+                    alt = feature.ref;
+    
+                if(ref.length === 1 && alt.length === 1 
+                    && feature.filter.toLowerCase() === 'pass') {
+                    fs.appendFileSync(outputFile, `${feature.chr}\t${feature.pos}\t${ref}${alt}\n`);
+                }
+            });
+    
+            vcf.on('end', function(){
+                console.log(`Finished converting VCF. Output file is here: ${outputFile}`);
+                callback();
+            });
+            
+            vcf.on('error', function(e){
+                callback(`Failed to convert VCF file: ${e}`);
+            });
+        } catch (e) {
+            callback(`Failed to convert VCF file: ${e}`);
+        }
     }
 
 
