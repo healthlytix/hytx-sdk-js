@@ -303,7 +303,7 @@ class HealthLytix {
         });
     }
 
-    convertVCF(vcfFile, outputFile, callback) {
+    convertVCF(vcfFile, outputFile, qualityThres, callback) {
         
         if (callback === undefined) {
             return new Promise((resolve, reject) => {
@@ -333,7 +333,7 @@ class HealthLytix {
                     alt = feature.ref;
     
                 if(ref.length === 1 && alt.length === 1 
-                    && feature.filter.toLowerCase() === 'pass') {
+                    && feature.filter.toLowerCase() === 'pass' && parseInt(feature.qual) > qualityThres) {
                     fs.appendFileSync(outputFile, `${feature.chr}\t${feature.pos}\t${ref}${alt}\n`);
                 }
             });
