@@ -303,11 +303,21 @@ class HealthLytix {
         });
     }
 
+    /**
+     * Convert VCF to a parsed file version of the VCF to be used on the HealthLytix Platform
+     * 
+     * @param {string} vcfFile 
+     * @param {string} outputFile File to be created from VCF file
+     * @param {number} qualityThres Number to use as a threshold for quality control
+     * @param {function} callback function to call after finished. if an error occurs, its invoked as (err) > {}.
+     * 
+     * @returns {Promise} returns a promise if no callback provided
+     */
     convertVCF(vcfFile, outputFile, qualityThres, callback) {
         
         if (callback === undefined) {
             return new Promise((resolve, reject) => {
-                this.convertVCF(vcfFile, outputFile, (err) => err ? reject(err) : resolve())
+                this.convertVCF(vcfFile, outputFile, qualityThres, (err) => err ? reject(err) : resolve())
             });
         }
 
