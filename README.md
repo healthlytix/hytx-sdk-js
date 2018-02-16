@@ -90,6 +90,49 @@ const hytx = new HealthLytix('ApiID', 'ApiSecret');
 })();
 ```
 
+### Prostate Cancer PHS Example
+
+To process a VCF/23andMe, or Ancestry.com genetic file with our Prostate Cancer PHS Algorithm, the workflow is the following:
+
+1. If using VCF file, preprocess the file before uploading with the helper function `convertVCF(vcfFile, vcfOutputFile, qualityThresholdNumber)`
+2. Upload the file
+3. Invoke the processing using the `requestId` from step 2. You get immediately a response, but without the results. The results will be processed in 1 to 2 minutes. To get the results, proceed to step 4 after a minute or so.
+4. Retrieve the results using the `getProstatePHS(requestId)` method and the requestId from step 2 and 3.
+
+Here is an example with code when using VCF files:
+
+```javascript
+// path to my VCF file
+const myVCFfile = 'path-to-my-vcf-file';
+
+// where should we store the converted VCF file
+const vcfOutput = 'file-to-write-new-VCF-file-to';
+
+// indicate the additional quality control threshold
+// to flag which variants to keep. This value will 
+// be compared against the 'QUAL' column in the VCF file
+const qualityThreshold = 100
+
+// convert it with our helper function
+await hytx.convertVCF(myVCFfile, vcfOutput, qualityThreshold);
+
+
+// upload a file
+const inputContent = "text/plain";
+const requestId = await hytx.uploadFile(vcfOutput, inputContent);
+
+// request the Prostate PHS Processing
+const subjectAge = 70;
+const response = await hytx.runProstatePHS(requestId, subjectAge);
+
+// ...wait for about 2 minutes before proceeding
+
+// get the results using the query method
+// report will be an object with the API response.
+// the structure of this object can be found on https://developer.healthlytix.com
+const report = await hytx.getProstatePHS('21cde030-12ae-11e8-838b-85778c7c9000');
+```
+
 ## Getting Help
 Please use these community resources for getting help. We use the GitHub issues for tracking bugs and feature requests and have limited bandwidth to address them.
 
