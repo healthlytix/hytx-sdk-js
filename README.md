@@ -108,14 +108,13 @@ const myVCFfile = 'path-to-my-vcf-file';
 // where should we store the converted VCF file
 const vcfOutput = 'file-to-write-new-VCF-file-to';
 
-// indicate the additional quality control threshold
-// to flag which variants to keep. This value will 
-// be compared against the 'QUAL' column in the VCF file
-const qualityThreshold = 100
-
 // convert it with our helper function
-await hytx.convertVCF(myVCFfile, vcfOutput, qualityThreshold);
+// only variants with PASS on the FILTER column will be kept
+await hytx.convertVCF(myVCFfile, vcfOutput);
 
+// (optional) to specify a threshold on the Qual field, use 
+// convertVCFwithThreshold(vcfFile, vcfOutput, threshold, callback)
+// instead of convertVCF()
 
 // upload a file
 const inputContent = "text/plain";
@@ -130,7 +129,8 @@ const response = await hytx.runProstatePHS(requestId, subjectAge);
 // get the results using the query method
 // report will be an object with the API response.
 // the structure of this object can be found on https://developer.healthlytix.com
-const report = await hytx.getProstatePHS('21cde030-12ae-11e8-838b-85778c7c9000');
+// use the requestId from uploadFile()
+const report = await hytx.getProstatePHS(requestId);
 ```
 
 ## Getting Help

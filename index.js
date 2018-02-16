@@ -304,7 +304,8 @@ class HealthLytix {
     }
 
     /**
-     * Convert VCF to a parsed file version of the VCF to be used on the HealthLytix Platform
+     * Convert VCF with specified threshold to a parsed file version of 
+     * the VCF to be used on the HealthLytix Platform
      * 
      * @param {string} vcfFile 
      * @param {string} outputFile File to be created from VCF file
@@ -313,11 +314,11 @@ class HealthLytix {
      * 
      * @returns {Promise} returns a promise if no callback provided
      */
-    convertVCF(vcfFile, outputFile, qualityThres, callback) {
+    convertVCFwithThreshold(vcfFile, outputFile, qualityThres, callback) {
         
         if (callback === undefined) {
             return new Promise((resolve, reject) => {
-                this.convertVCF(vcfFile, outputFile, qualityThres, (err) => err ? reject(err) : resolve())
+                this.convertVCFwithThreshold(vcfFile, outputFile, qualityThres, (err) => err ? reject(err) : resolve())
             });
         }
 
@@ -361,6 +362,26 @@ class HealthLytix {
         }
     }
 
+    /**
+     * Convert VCF with to a parsed file version of 
+     * the VCF to be used on the HealthLytix Platform
+     * 
+     * @param {string} vcfFile 
+     * @param {string} outputFile File to be created from VCF file
+     * @param {function} callback function to call after finished. if an error occurs, its invoked as (err) > {}.
+     * 
+     * @returns {Promise} returns a promise if no callback provided
+     */
+    convertVCF(vcfFile, outputFile, callback) {
+        
+        if (callback === undefined) {
+            return new Promise((resolve, reject) => {
+                this.convertVCFwithThreshold(vcfFile, outputFile, 0, (err) => err ? reject(err) : resolve())
+            });
+        }
+
+        this.convertVCFwithThreshold(vcfFile, outputFile, 0, callback);
+    }
 
 }
 
