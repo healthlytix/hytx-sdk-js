@@ -133,6 +133,35 @@ const response = await hytx.runProstatePHS(requestId, subjectAge);
 const report = await hytx.getProstatePHS(requestId);
 ```
 
+## API
+
+This SDK has the following API methods:
+
+* [convertVCF](#convertVCF)
+* [convertVCFwithThreshold](#convertVCFwithThreshold)
+* [uploadFile](#uploadFile)
+* [ping](#ping)
+* [runAlzheimersPHS](#runAlzheimersPHS)
+* [getAlzheimersPHS](#getAlzheimersPHS)
+* [runProstatePHS](#runProstatePHS)
+* [getProstatePHS](#getProstatePHS)
+
+### convertVCF
+
+### convertVCFwithThreshold
+
+### uploadFile
+
+### ping
+
+### runAlzheimersPHS
+
+### getAlzheimersPHS
+
+### runProstatePHS
+
+### getProstatePHS
+
 ## Getting Help
 Please use these community resources for getting help. We use the GitHub issues for tracking bugs and feature requests and have limited bandwidth to address them.
 
