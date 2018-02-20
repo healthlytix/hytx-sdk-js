@@ -213,7 +213,7 @@ runAlzheimersPHS(requestId, age, (err, report) => {
 })
 ```
 
-### <a name="getAlzheimersPHS"></a> getAlzheimersPHS
+### <a name="getAlzheimersPHS"></a> `getAlzheimersPHS`
 
 Retrieve some previously calculated results from [runAlzheimersPHS](#runAlzheimersPHS)
 
@@ -225,7 +225,7 @@ getAlzheimersPHS(requestId, (err, report) => {
 })
 ```
 
-### <a name="runProstatePHS"></a> runProstatePHS
+### <a name="runProstatePHS"></a> `runProstatePHS`
 
 Run the Alzheimer's PHS Algorithm. Make sure to upload the file before executing this call using the [uploadFile](#uploadFile). **Note** Unlike [runAlzheimersPHS](#runAlzheimersPHS), this call does not return the report. This is so because the ProstatePHS algorithm takes longer than 30 seconds and an HTTP request is not kept open waiting for the algorithm to finish. To retrieve the results, use [getProstatePHS](#getProstatePHS).
 
@@ -239,7 +239,7 @@ runProstatePHS(requestId, age, (err, response) => {
 })
 ```
 
-### <a name="getProstatePHS"></a> getProstatePHS
+### <a name="getProstatePHS"></a> `getProstatePHS`
 
 Retrieve some previously calculated results from [runProstatePHS](#runProstatePHS)
 
