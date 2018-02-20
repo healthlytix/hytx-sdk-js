@@ -146,9 +146,9 @@ This SDK has the following API methods:
 * [runProstatePHS](#runProstatePHS)
 * [getProstatePHS](#getProstatePHS)
 
-### convertVCF
+### <a name="convertVCF"></a> convertVCF
 
-### convertVCFwithThreshold
+### <a name="convertVCFwithThreshold"></a> convertVCFwithThreshold
 
 ### uploadFile
 
