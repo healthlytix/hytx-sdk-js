@@ -234,7 +234,7 @@ getAlzheimersPHS(requestId, (err, report) => {
 
 ### <a name="runProstatePHS"></a> `runProstatePHS`
 
-Run the Alzheimer's PHS Algorithm. Make sure to upload the file before executing this call using the [uploadFile](#uploadFile). **Note** Unlike [runAlzheimersPHS](#runAlzheimersPHS), this call does not return the report. This is so because the ProstatePHS algorithm takes longer than 30 seconds and an HTTP request is not kept open waiting for the algorithm to finish. To retrieve the results, use [getProstatePHS](#getProstatePHS).
+Run the Prostate Cancer PHS Algorithm. Make sure to upload the file before executing this call using the [uploadFile](#uploadFile). **Note** Unlike [runAlzheimersPHS](#runAlzheimersPHS), this call does not return the report. This is so because the ProstatePHS algorithm takes longer than 30 seconds and an HTTP request is not kept open waiting for the algorithm to finish. To retrieve the results, use [getProstatePHS](#getProstatePHS).
 
 ```javascript
 // requestId = requestId from uploadFile
