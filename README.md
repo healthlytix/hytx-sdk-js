@@ -181,6 +181,13 @@ convertVCFwithThreshold(vcfFile, outputFile, qualityThres, (err) => {
 Upload a file to our cloud in order to use it with some other algorithm/api. It returns a `requestId`, which is needed by some other API calls.
 This call requires to specify the type of content being uploaded (MIME). This conforms to the [IANA Standards](http://www.iana.org/assignments/media-types/media-types.xhtml).
 
+Sample MIME types:
+
+* `application/gzip`
+* `application/octet-stream`
+* `application/zip`
+* `text/plain`
+
 ```javascript
 // file = path to file to upload
 // contentType = the MIME type of file to be uploaded. 
@@ -202,7 +209,7 @@ ping((err, response) => {
 
 ### <a name="runAlzheimersPHS"></a> `runAlzheimersPHS`
 
-Run the Alzheimer's PHS Algorithm. Make sure to upload the file before executing this call using the [uploadFile](#uploadFile).
+Run the Alzheimer's PHS Algorithm. Make sure to upload the file before executing this call using the [uploadFile](#uploadFile). File can be uploaded as a text, zip, or tar file. If using a zip/tar/gzip file, make sure to only include the file with the genetics inside the compressed file. Additional files inside the compressed file are not allowed.
 
 ```javascript
 // requestId = requestId from uploadFile
