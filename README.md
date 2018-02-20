@@ -135,6 +135,8 @@ const report = await hytx.getProstatePHS(requestId);
 
 ## API
 
+### All methods that provide a callback will return a promise if no callback supplied
+
 This SDK has the following API methods:
 
 * [convertVCF](#convertVCF)
@@ -146,21 +148,67 @@ This SDK has the following API methods:
 * [runProstatePHS](#runProstatePHS)
 * [getProstatePHS](#getProstatePHS)
 
+
 ### <a name="convertVCF"></a> convertVCF
+
+Convert VCF file to a special HealthLytix format that speeds the upload, and improves the efficiency when processing them with algorithms such as [runProstatePHS](#runProstatePHS). **Note: Only variants with PASS on the `FILTER` column will be kept. Other are filtered out.**  We accept VCF files that conform to the standards found: [IGSR](http://www.internationalgenome.org/wiki/Analysis/Variant%20Call%20Format/vcf-variant-call-format-version-40/), [SamTools](http://samtools.github.io/hts-specs/)
+
+```javascript
+// vcfFile = file path to your VCF file
+// outputFile = file to create with new HealthLytix format
+
+convertVCF(vcfFile, outputFile, (err) => {
+
+})
+```
 
 ### <a name="convertVCFwithThreshold"></a> convertVCFwithThreshold
 
-### uploadFile
+Same as [convertVCF](#convertVCF) except that it allows to specify an additional threshold to further filter out variants. The threshold adds a constraint to filter out variants that are lower than then value specified when compared to the `QUAL` field of the VCF file.
 
-### ping
+```javascript
+// vcfFile = file path to your VCF file
+// outputFile = file to create with new HealthLytix format
+// qualityThres = number to act as threshold to filter out variants 
 
-### runAlzheimersPHS
+convertVCFwithThreshold(vcfFile, outputFile, qualityThres, (err) => {
 
-### getAlzheimersPHS
+})
+```
 
-### runProstatePHS
+### <a name="uploadFile"></a> uploadFile
 
-### getProstatePHS
+Upload a file to our cloud in order to use it with some other algorithm/api. It returns a `requestId`, which is needed by some other API calls.
+This call requires to specify the type of content being uploaded (MIME). This conforms to the [IANA Standards](http://www.iana.org/assignments/media-types/media-types.xhtml).
+
+```javascript
+// file = path to file to upload
+// contentType = the MIME type of file to be uploaded. 
+
+uploadFile(file, contentType, (err, requestId) => {
+    // use requestId for some other algorithm
+})
+```
+
+### <a name="ping"></a> ping
+
+Pings the API. Used for testing authentication.
+
+```javascript
+ping((err, response) => {
+    console.log(response)
+})
+```
+
+### <a name="runAlzheimersPHS"></a> `runAlzheimersPHS`
+
+Run the Alzheimer's PHS Algorithm. Make sure to upload the file before executing this call using the [uploadFile](#uploadFile).
+
+### <a name="getAlzheimersPHS"></a> getAlzheimersPHS
+
+### <a name="runProstatePHS"></a> runProstatePHS
+
+### <a name="getProstatePHS"></a> getProstatePHS
 
 ## Getting Help
 Please use these community resources for getting help. We use the GitHub issues for tracking bugs and feature requests and have limited bandwidth to address them.
