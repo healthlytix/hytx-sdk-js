@@ -244,7 +244,7 @@ class HealthLytix {
                             options.method = 'PUT';
                             options.uri = urlBody.uploadURL;
                             options.headers = {};
-                            options.headers['content-type'] = 'text/plain';
+                            options.headers['content-type'] = contentType;
                             options.body = data;
                             options.json = false;
 
