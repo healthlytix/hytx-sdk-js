@@ -149,9 +149,9 @@ This SDK has the following API methods:
 * [getProstatePHS](#getProstatePHS)
 
 
-### <a name="convertVCF"></a> convertVCF
+### <a name="convertVCF"></a> `convertVCF`
 
-Convert VCF file to a special HealthLytix format that speeds the upload, and improves the efficiency when processing them with algorithms such as [runProstatePHS](#runProstatePHS). **Note: Only variants with PASS on the `FILTER` column will be kept. Other are filtered out.**  We accept VCF files that conform to the standards found: [IGSR](http://www.internationalgenome.org/wiki/Analysis/Variant%20Call%20Format/vcf-variant-call-format-version-40/), [SamTools](http://samtools.github.io/hts-specs/)
+Convert VCF file to a special HealthLytix format that speeds the upload, and improves the efficiency when processing them with algorithms such as [runProstatePHS](#runProstatePHS). **Note: Only variants with PASS on the `FILTER` column will be kept. Others are filtered out.**  We accept VCF files that conform to the standards found: [IGSR](http://www.internationalgenome.org/wiki/Analysis/Variant%20Call%20Format/vcf-variant-call-format-version-40/), [SamTools](http://samtools.github.io/hts-specs/)
 
 ```javascript
 // vcfFile = file path to your VCF file
@@ -162,7 +162,7 @@ convertVCF(vcfFile, outputFile, (err) => {
 })
 ```
 
-### <a name="convertVCFwithThreshold"></a> convertVCFwithThreshold
+### <a name="convertVCFwithThreshold"></a> `convertVCFwithThreshold`
 
 Same as [convertVCF](#convertVCF) except that it allows to specify an additional threshold to further filter out variants. The threshold adds a constraint to filter out variants that are lower than then value specified when compared to the `QUAL` field of the VCF file.
 
@@ -176,7 +176,7 @@ convertVCFwithThreshold(vcfFile, outputFile, qualityThres, (err) => {
 })
 ```
 
-### <a name="uploadFile"></a> uploadFile
+### <a name="uploadFile"></a> `uploadFile`
 
 Upload a file to our cloud in order to use it with some other algorithm/api. It returns a `requestId`, which is needed by some other API calls.
 This call requires to specify the type of content being uploaded (MIME). This conforms to the [IANA Standards](http://www.iana.org/assignments/media-types/media-types.xhtml).
@@ -190,7 +190,7 @@ uploadFile(file, contentType, (err, requestId) => {
 })
 ```
 
-### <a name="ping"></a> ping
+### <a name="ping"></a> `ping`
 
 Pings the API. Used for testing authentication.
 
@@ -204,11 +204,52 @@ ping((err, response) => {
 
 Run the Alzheimer's PHS Algorithm. Make sure to upload the file before executing this call using the [uploadFile](#uploadFile).
 
+```javascript
+// requestId = requestId from uploadFile
+// age = age of the subject as a number
+
+runAlzheimersPHS(requestId, age, (err, report) => {
+    // report has the results
+})
+```
+
 ### <a name="getAlzheimersPHS"></a> getAlzheimersPHS
+
+Retrieve some previously calculated results from [runAlzheimersPHS](#runAlzheimersPHS)
+
+```javascript
+// requestId = requestId used when running runAlzheimersPHS
+
+getAlzheimersPHS(requestId, (err, report) => {
+    // report has the results
+})
+```
 
 ### <a name="runProstatePHS"></a> runProstatePHS
 
+Run the Alzheimer's PHS Algorithm. Make sure to upload the file before executing this call using the [uploadFile](#uploadFile). **Note** Unlike [runAlzheimersPHS](#runAlzheimersPHS), this call does not return the report. This is so because the ProstatePHS algorithm takes longer than 30 seconds and an HTTP request is not kept open waiting for the algorithm to finish. To retrieve the results, use [getProstatePHS](#getProstatePHS).
+
+```javascript
+// requestId = requestId from uploadFile
+// age = age of the subject as a number
+
+runProstatePHS(requestId, age, (err, response) => {
+    // response indicates whether the request was succesful
+    // it will not have the results of the algorithm...
+})
+```
+
 ### <a name="getProstatePHS"></a> getProstatePHS
+
+Retrieve some previously calculated results from [runProstatePHS](#runProstatePHS)
+
+```javascript
+// requestId = requestId used when running runProstatePHS
+
+getProstatePHS(requestId, (err, report) => {
+    // report has the results
+})
+```
 
 ## Getting Help
 Please use these community resources for getting help. We use the GitHub issues for tracking bugs and feature requests and have limited bandwidth to address them.
